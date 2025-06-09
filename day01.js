@@ -1,146 +1,134 @@
-// javascript -- means console
+// JavaScript – Basics Recap
 
-// variable -> a variable is simply the name to storage location
+// 🟢 Console:
+// In JavaScript, we use `console.log()` to display output in the browser console.
 
-// let age = 21;
-// let name = "sunny";
+// 🟢 Variable:
+// A variable is simply the name assigned to a memory location where data is stored.
 
-// there will be location in memory whose name is going to be age and 21 will be stored at that address this is the concept of variable.
+let age = 21;
+let name = "Sunny";
+
+// There will be a location in memory named "age" and the value 21 will be stored at that address.
+// This is the concept of a variable.
 
 
-// datatype
+// ================================
+// 🟠 Data Types in JavaScript
+// ================================
 
+// ➤ Primitive Data Types (Immutable, stored by value):
 
-// primitive datatype -> these are immutable and store by value
+// 1. String – Text enclosed in single '', double "", or backticks ``
+let userName = "Alice";
+console.log(userName); // "Alice"
 
-// 1. string -> text enclosed in single ', double ", or backticks `
-
-let name = "Alice";
-console.log(name);
-
-// 2. numbers -> represents both integers and floating-point numbers
-
-let age = 25;
+// 2. Number – Represents integers and floating-point numbers
+let ageNum = 25;
 let price = 99.99;
 
-// 3. BigInt -> for integers larger than 2^53 -1
+// 3. BigInt – For very large integers (larger than 2^53 - 1)
 let bigNumber = 12345678901234568901234567890123456890n;
-console.log(bigNumber);
-console.log(typeof(bigNumber)); // bigint
+console.log(bigNumber);            // 12345678901234568901234567890123456890n
+console.log(typeof bigNumber);     // "bigint"
 
-// 4. boolean -> represents true or false
-
+// 4. Boolean – Represents true or false
 let isLoggedIn = true;
-console.log(isLoggedIn); // true
+console.log(isLoggedIn);           // true
 
-// 5. undefined -> a variable that has been declared but not assined a value
+// 5. Undefined – A variable that has been declared but not assigned a value
 let k;
-console.log(k); // undefined
+console.log(k);                    // undefined
 
-// 6. represents intentional absence of any value
-
+// 6. Null – Represents the intentional absence of any value
 let empty = null;
-console.log(empty); // null
+console.log(empty);                // null
 
-// 7. Symbol -> unique and immutable value, often used as object keys
+// 7. Symbol – Unique and immutable, often used as object keys
 let id = Symbol("id");
-console.log(id); // Symbol(id)
+console.log(id);                   // Symbol(id)
 
-// 8. typeof undefind vs null
-console.log(typeof undefind) // "undefined"
-console.log(typeof null) // "object"
+// 8. typeof undefined vs null
+console.log(typeof undefined);     // "undefined"
+console.log(typeof null);          // "object" (quirk in JavaScript)
 
-// Non-primitve(reference) Data Types -> stored by reference and can hold collections or more complex structures.
 
-// 1. object -> collection of key-value pairs
+// ➤ Non-Primitive (Reference) Data Types – Stored by reference:
 
-let person = {name : "Alice", age: 25};
+// 1. Object – A collection of key-value pairs
+let person = { name: "Alice", age: 25 };
 
-// 2. array -> ordered list of values
-
+// 2. Array – An ordered list of values
 let fruits = ["apple", "banana", "cherry"];
 
-// 3. function -> a block of code desined to perform a task
-
-function greet(){
+// 3. Function – A block of code designed to perform a task
+function greet() {
     console.log("Hello!");
 }
+greet(); // "Hello!"
 
-greet();
 
-// typeof Operator -> you can use typeof to check the datatype
+// ➤ typeof Operator – Used to check the type of a value
+console.log(typeof "hello");        // "string"
+console.log(typeof 42);             // "number"
+console.log(typeof true);           // "boolean"
+console.log(typeof {});             // "object"
+console.log(typeof []);             // "object" (arrays are objects)
+console.log(typeof null);           // "object"
+console.log(typeof undefined);      // "undefined"
+console.log(typeof function(){});   // "function"
 
-console.log(typeof "hello")      // "string"
-console.log(typeof 42)           // "number"
-console.log(typeof true)        // "boolean"
-console.log(typeof {})           // "object"
-console.log(typeof [])           // "object"
-console.log(typeof null)         // "object"
-console.log(typeof undefined )   // "undefined"
-console.log(typeof function(){}) // "function"
 
-// let, var, and const are used to declare variables, but they differ in scope, hoisting and mutability
+// ================================
+// 🔵 let, var, and const
+// ================================
 
-// 1. var(old)
-
-/*
-Function-scoped
-
-Hoisted to the top of the function, but not initialized
-
-Can be redeclared and updated
-*/
-
+// 1. var – Function-scoped, hoisted (initialized as undefined), can be redeclared and updated
 function test() {
-  console.log(x); // undefined (due to hoisting)
-  var x = 10;
-  console.log(x); // 10
+    console.log(x); // undefined (due to hoisting)
+    var x = 10;
+    console.log(x); // 10
 }
-
 test();
 
-// isues with var
-
+// var has no block scope
 if (true) {
-  var a = 5;
+    var a = 5;
 }
-console.log(a); // 5 (no block scope)
+console.log(a); // 5 (accessible outside block)
 
-// 2. let
 
-/*
-
-Block-scoped (only exists within { })
-
-Hoisted, but not initialized (in Temporal Dead Zone until declaration)
-
-Can be updated, but not redeclared in the same scope
-
-*/
-
+// 2. let – Block-scoped, hoisted but in Temporal Dead Zone, can be updated but not redeclared in same scope
 if (true) {
-  let y = 20;
-  console.log(y); // 20
+    let y = 20;
+    console.log(y); // 20
 }
 // console.log(y); // ReferenceError: y is not defined
 
 
-// 3. const
-
-/*
-
-Block-scoped
-
-Must be initialized at the time of declaration
-
-Cannot be reassigned, but objects/arrays can still be mutated
-*/
-
-/*
+// 3. const – Block-scoped, must be initialized, cannot be reassigned (but object/array contents can change)
 const z = 30;
-z = 40; // ❌ Error: Assignment to constant variable
+// z = 40; // ❌ Error: Assignment to constant variable
 
-const person = { name: "Alice" };
-person.name = "Bob"; // ✅ Allowed: internal mutation
+const person2 = { name: "Alice" };
+person2.name = "Bob"; // ✅ Allowed: object property changed
 
-*/
+
+// ➤ Dynamic Typing
+let n = 6;
+console.log(typeof n); // "number"
+
+n = true;
+console.log(typeof n); // "boolean"
+// Note: Initially the type of n was a number, later it became boolean.
+// This is allowed in JavaScript because it's a dynamically typed language.
+
+
+// ➤ String Concatenation
+let str = "Tony" + " " + "Stark";
+console.log(str); // "Tony Stark"
+
+// ================================
+// 🔴 Notes:
+// - JavaScript is a dynamically typed language (type can change at runtime).
+// - TypeScript is a statically typed language (type is fixed once declared).
