@@ -1,75 +1,138 @@
-// 'this' in javascript
+// 'this' in JavaScript
 
-// 'this' => refers to an object that is executing the current piece of code
+// 'this' => refers to the object that is executing the current piece of code
 
 const student = {
-    name : 'sunny',
-    age : '22',
-    eng : 23,
-    math : 25,
-    phy : 53,
-    getAvg(){
-        console.log(this); // student => because getAvg will getting executed because of student object
-        let avg = (this.eng + this.math + this.phy)/3; // if you have written end instead of this.eng the it would have given error
-        console.log(`${this.name} got avg margks = ${avg}`);
+    name: 'sunny',
+    age: 22,
+    eng: 23,
+    math: 25,
+    phy: 53,
+
+    getAvg() {
+        console.log(this); // refers to the 'student' object
+        let avg = (this.eng + this.math + this.phy) / 3;
+        console.log(`${this.name} got avg marks = ${avg}`);
     }
 };
 
-console.log(student.getAvg());
+student.getAvg();
 /*
+Output:
 {
   name: 'sunny',
-  age: '22',
+  age: 22,
   eng: 23,
   math: 25,
   phy: 53,
   getAvg: [Function: getAvg]
 }
-sunny got avg margks = 33.666666666666664
+sunny got avg marks = 33.666666666666664
 */
 
-// another ex:-
-
-function getAvg(){
-    console.log(this);
+// Another example: regular function in global scope
+function getAvg() {
+    console.log(this); // refers to the global object (window in browser, global in Node)
 }
 
-console.log(getAvg()); // window object => because this code is getting executed window.getAvg() that's why window is output.
+getAvg(); // Output: Window or global
 
-// try and catch => this try statement allows you to define a block of code to be tested for errors while it is being executed and catch statement allows you to define a block of code to be executed, if and error occurs in the try block.
+// try and catch => used to handle runtime errors gracefully
 
-// let a = 10;
-try{
-    console.log(a);
+try {
+    console.log(a); // 'a' is not defined
 } catch {
-    console.log("variable a doesn't defined");
+    console.log("Variable 'a' is not defined.");
 }
 
-// miscellaneous topics
+// Arrow Functions
+// Syntax: const func = (arg1, arg2, ...) => { function body }
 
-// arrow functions => const func = (arg1, arg2) => {function definition}
-
-const sum = (a,b) => {
+const sum = (a, b) => {
     console.log(a + b);
-}
+};
 
-const cube = n => { // if there is 1 argument then parenthesis besides arguments is optional but if there is 0, 2 or more than two arguments then it's compulsory you have to use parenthesis.
-    return n*n*n;
-}
+const cube = n => {
+    return n * n * n;
+};
 
 const pow = (a, b) => {
-    return a**b;
-}
+    return a ** b;
+};
 
-sum(2,5);
-console.log(cube(3));
-console.log(pow(2, 5));
+sum(2, 5);           // 7
+console.log(cube(3)); // 27
+console.log(pow(2, 5)); // 32
 
-// arrow function(implicit return) => in this case function is not going to print anything or return anything there will be a single value it will return itself.
-// const func = (arg1, arg2, arg3, ...) => (value);
+// Arrow function with implicit return
+// Syntax: const func = (args) => expression;
 
-const sum1 = (a,b) => a+b;
-const cube1 = a => a*a*a;
+const sum1 = (a, b) => a + b;
+const cube1 = a => a * a * a;
 
-console.log(sum1(2,55));
-console.log(cube(5));
+console.log(sum1(2, 55));  // 57
+console.log(cube1(5));     // 125
+
+// 'this' with arrow functions
+// - Arrow functions DO NOT have their own 'this'
+// - They inherit 'this' from the surrounding (lexical) scope
+// - Regular functions get 'this' based on the caller
+
+const students = {
+    name: 'sunny',
+    marks: 98,
+
+    prop: this, // evaluated during object creation, refers to global object (window/global)
+
+    getName: function () {
+        console.log(this); // 'this' refers to 'students' object
+        return this.name;
+    },
+
+    getMarks: () => {
+        console.log(this); // 'this' refers to the outer lexical scope (global)
+        return this.marks; // undefined (window.marks does not exist)
+    },
+
+    getInfo: function () {
+        setTimeout(() => {
+            console.log(this); // 'this' is 'students' because arrow function inherits from 'getInfo'
+        }, 2000);
+    },
+
+    getInfo2: function () {
+        setTimeout(function () {
+            console.log(this); // regular function => 'this' is global object (window)
+        }, 2000);
+    }
+};
+
+console.log(students.prop);
+/*
+Output:
+window or global object (because evaluated at object creation time)
+*/
+
+console.log(students.getName());
+/*
+Output:
+students object
+sunny
+*/
+
+console.log(students.getMarks());
+/*
+Output:
+global object (in browser => window)
+undefined (because window.marks is not defined)
+*/
+
+students.getInfo(); // logs 'students' after 2 seconds
+students.getInfo2(); // logs 'window' (or 'global') after 2 seconds
+
+// Summary:
+// - Arrow functions do not have their own 'this'
+// - They capture 'this' from the nearest non-arrow parent function (lexical scope)
+// - Regular functions get 'this' from the calling object
+// - Avoid arrow functions for methods if you need access to the object via 'this'
+// - setTimeout uses global object as 'this' unless arrow functions are used
