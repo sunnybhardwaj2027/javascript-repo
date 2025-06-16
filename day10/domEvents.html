@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM events</title>
+    <style>
+        body{
+            text-align: center;
+        }
+        .box {
+            height: 100px;
+            width: 500px;
+            border: 1px black dotted;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>DOM events</h1>
+    <button onclick="console.log('button was clicked')">click me!</button>
+    <button onclick="console.log('photo was liked')">like this photo</button>
+
+    <p>it's a paragraph</p>
+    <div class="box"> box </div>
+
+    <button class="btn">this is button</button>
+    <button class="newbtn">new button</button>
+    <input type="text" placeholder="writing something here">
+
+    <form action="/action">
+        <input type="text" placeholder="username">
+        <button>register</button>
+    </form>
+
+    <br>
+    <form action="/action" class="form2">
+        <input type="text" placeholder="username" id="user">
+        <input type="password" id="pass">
+        <button>register</button>
+    </form>
+
+    <input type="text" placeholder="type something" id="move">
+    <button>register</button>
+    <script src="domEvents.js"></script>
+</body>
+</html>
